@@ -21,41 +21,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Something went worng" });
 });
 
-function valid(inputText) {
-  const pattern = /^[^0-9]*$/;
-  return pattern.test(inputText);
-}
-
-// Validation Middleware
-const validUser = (req, res, next) => {
-  const { name, age, address, department, employmentStatus } = req.body;
-  console.log(typeof department);
-  console.log(valid(department));
-  if (
-    name == "" ||
-    age == "" ||
-    address == "" ||
-    department == "" ||
-    employmentStatus == ""
-  ) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
-
-  // if (
-  //   typeof name !== "string" ||
-  //   typeof address !== "string" ||
-  //   typeof department !== "string" ||
-  //   typeof employmentStatus !== "string" ||
-  //   typeof age !== "number" ||
-  //   !valid(department) ||
-  //   !valid(name) ||
-  //   !valid(employmentStatus)
-  // ) {
-  //   return res.status(400).json({ error: "Invalid input type" });
-  // }
-
-  next();
-};
 
 app.get("/", (req, res) => {
   UserModel.find({})
@@ -63,7 +28,7 @@ app.get("/", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.post("/createUser", validUser, (req, res) => {
+app.post("/createUser", (req, res) => {
   UserModel.create(req.body)
     .then((user) => res.json(user))
     .catch((err) => res.json(err));
@@ -77,7 +42,7 @@ app.get("/getUser/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.put("/updateUser/:id", validUser, async (req, res) => {
+app.put("/updateUser/:id",  async (req, res) => {
   const id = req.params.id;
 
   try {
