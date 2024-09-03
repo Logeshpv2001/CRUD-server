@@ -11,7 +11,9 @@ const port = 3001;
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb+srv://logeshkarthi782:PSx2PoiobSvrMMyb@cluster1.pkyc5ip.mongodb.net/crud")
+  .connect(
+    "mongodb+srv://logeshkarthi782:PSx2PoiobSvrMMyb@cluster1.pkyc5ip.mongodb.net/crud"
+  )
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
@@ -20,7 +22,6 @@ app.use((err, req, res, next) => {
   console.log(err.stack);
   res.status(500).json({ error: "Something went worng" });
 });
-
 
 app.get("/", (req, res) => {
   UserModel.find({})
@@ -42,7 +43,7 @@ app.get("/getUser/:id", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.put("/updateUser/:id",  async (req, res) => {
+app.put("/updateUser/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
